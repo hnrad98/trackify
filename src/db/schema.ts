@@ -114,3 +114,5 @@ export const alerts = pgTable(
   },
   (t) => [index("alerts_pipeline_idx").on(t.pipelineId)],
 );
+
+export * from "./auth-schema";
