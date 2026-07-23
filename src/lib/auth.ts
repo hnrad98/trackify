@@ -8,7 +8,7 @@ export const auth = betterAuth({
   emailAndPassword: { enabled: true },
   user: {
     additionalFields: {
-      tenantId: { type: "string", required: true, input: false },
+      tenantId: { type: "string", required: false, input: false },
     },
   },
   databaseHooks: {
