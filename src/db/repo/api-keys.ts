@@ -36,3 +36,18 @@ export async function insertApiKey(
   if (!row) throw new Error("api key insert failed");
   return row;
 }
+
+export async function findTenantIdByKeyHash(
+  hash: string,
+): Promise<string | null> {
+  const [row] = await db
+    .select({ tenantId: apiKeys.tenantId, id: apiKeys.id })
+    .from(apiKeys)
+    .where(and(eq(apiKeys.keyHash, hash), isNull(apiKeys.revokedAt)));
+  if (!row) return null;
+  await db
+    .update(apiKeys)
+    .set({ lastUsedAt: new Date() })
+    .where(eq(apiKeys.id, row.id));
+  return row.tenantId;
+}

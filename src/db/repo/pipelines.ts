@@ -42,3 +42,14 @@ export async function insertPipeline(
   if (!row) throw new Error("pipeline insert failed");
   return row;
 }
+
+export async function recordPing(
+  tenantId: string,
+  pipelineId: string,
+  status?: "up" | "down",
+) {
+  await db
+    .update(pipelines)
+    .set({ lastPingAt: new Date(), ...(status ? { status } : {}) })
+    .where(and(eq(pipelines.id, pipelineId), eq(pipelines.tenantId, tenantId)));
+}
