@@ -19,3 +19,17 @@ body {
   background: var(--color-bg);
   color: var(--color-ink);
 }
+
+@keyframes pulse-soft {
+  50% {
+    opacity: 0.35;
+  }
+}
+.pulse-soft {
+  animation: pulse-soft 2.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse-soft {
+    animation: none;
+  }
+}

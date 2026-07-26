@@ -1,4 +1,4 @@
-import { and, desc, eq, isNull, sql } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import { db } from "@/db";
 import { runs } from "@/db/schema";
 
@@ -95,4 +95,31 @@ async function findLatestOpenRun(tenantId: string, pipelineId: string) {
     .orderBy(desc(runs.startedAt))
     .limit(1);
   return row ?? null;
+}
+
+export async function listRecentRunsByPipeline(
+  tenantId: string,
+  perPipeline = 20,
+) {
+  const rows = await db
+    .select({
+      id: runs.id,
+      pipelineId: runs.pipelineId,
+      status: runs.status,
+      startedAt: runs.startedAt,
+    })
+    .from(runs)
+    .where(eq(runs.tenantId, tenantId))
+    .orderBy(desc(runs.startedAt))
+    .limit(500);
+
+  const byPipeline = new Map<string, typeof rows>();
+  for (const r of rows) {
+    const list = byPipeline.get(r.pipelineId) ?? [];
+    if (list.length < perPipeline) {
+      list.push(r);
+      byPipeline.set(r.pipelineId, list);
+    }
+  }
+  return byPipeline;
 }
