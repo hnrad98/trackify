@@ -123,3 +123,16 @@ export async function listRecentRunsByPipeline(
   }
   return byPipeline;
 }
+
+export async function listRunsForPipeline(
+  tenantId: string,
+  pipelineId: string,
+  limit = 50,
+) {
+  return db
+    .select()
+    .from(runs)
+    .where(and(eq(runs.tenantId, tenantId), eq(runs.pipelineId, pipelineId)))
+    .orderBy(desc(runs.startedAt))
+    .limit(limit);
+}
