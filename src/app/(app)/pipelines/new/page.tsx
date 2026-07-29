@@ -38,7 +38,7 @@ export default function NewPipelinePage() {
           The free plan includes {state.max} pipelines. Upgrade to Pro to
           monitor up to 50.
         </p>
-        <button className="mt-4 rounded-md bg-accent px-3 py-2 text-sm font-medium text-white">
+        <button className="mt-4 rounded-md bg-accent px-3 py-2 text-sm font-medium text-bg">
           Upgrade — coming soon
         </button>
       </Panel>
@@ -89,7 +89,7 @@ export default function NewPipelinePage() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-md bg-accent px-3 py-2 text-sm font-medium text-white disabled:opacity-60"
+          className="w-full rounded-md bg-accent px-3 py-2 text-sm font-medium text-bg disabled:opacity-60"
         >
           {isPending ? "Creating…" : "Create pipeline"}
         </button>

@@ -31,7 +31,7 @@ export default async function DashboardPage() {
         </div>
         <Link
           href="/pipelines/new"
-          className="rounded-md bg-accent px-3 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+          className="rounded-md bg-accent px-3 py-2 text-sm font-medium text-bg transition-opacity hover:opacity-90"
         >
           New pipeline
         </Link>
@@ -47,7 +47,7 @@ export default async function DashboardPage() {
           </p>
           <Link
             href="/pipelines/new"
-            className="mt-6 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white"
+            className="mt-6 rounded-md bg-accent px-4 py-2 text-sm font-medium text-bg"
           >
             Create your first pipeline
           </Link>
