@@ -39,7 +39,10 @@ export default async function PipelinePage({
         </span>
       </div>
       <p className="mt-1 font-mono text-sm text-ink-muted">
-        {pipeline.slug} · last ping {timeAgo(pipeline.lastPingAt)}
+        {pipeline.slug} · last ping{" "}
+        <span title={pipeline.lastPingAt?.toISOString()}>
+          {timeAgo(pipeline.lastPingAt)}
+        </span>
       </p>
 
       {runList.length === 0 ? (
