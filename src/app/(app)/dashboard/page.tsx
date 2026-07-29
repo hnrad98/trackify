@@ -70,7 +70,10 @@ export default async function DashboardPage() {
                     </p>
                   </div>
                   <RunBar statuses={recent.map((r) => r.status)} />
-                  <div className="w-24 text-right font-mono text-xs text-ink-muted">
+                  <div
+                    title={p.lastPingAt?.toISOString()}
+                    className="w-24 text-right font-mono text-xs text-ink-muted"
+                  >
                     {timeAgo(p.lastPingAt)}
                   </div>
                   <div className="w-20 text-right text-xs text-ink-muted">

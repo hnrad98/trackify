@@ -129,7 +129,10 @@ function RunsTable({ runs }: { runs: Run[] }) {
         <tbody className="divide-y divide-edge">
           {runs.map((r) => (
             <tr key={r.id}>
-              <td className="px-4 py-2 font-mono text-xs text-ink-muted">
+              <td
+                title={r.startedAt.toISOString()}
+                className="px-4 py-2 font-mono text-xs text-ink-muted"
+              >
                 {timeAgo(r.startedAt)}
               </td>
               <td
