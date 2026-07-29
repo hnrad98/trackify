@@ -7,6 +7,7 @@ import { PLAN_LIMITS } from "@/lib/plans";
 import { RunBar } from "@/components/run-bar";
 import { StatusDot } from "@/components/status-dot";
 import { humanPeriod, timeAgo } from "@/lib/format";
+import { AutoRefresh } from "@/components/auto-refresh";
 
 export default async function DashboardPage() {
   const { tenantId } = await requireSession();
@@ -19,6 +20,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-8">
+      <AutoRefresh />
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">{tenant.name}</h1>

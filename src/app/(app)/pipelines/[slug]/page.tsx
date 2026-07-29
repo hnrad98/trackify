@@ -6,6 +6,7 @@ import { listRunsForPipeline } from "@/db/repo/runs";
 import { StatusDot } from "@/components/status-dot";
 import { humanPeriod, timeAgo } from "@/lib/format";
 import type { runs as runsTable } from "@/db/schema";
+import { AutoRefresh } from "@/components/auto-refresh";
 
 type Run = typeof runsTable.$inferSelect;
 
@@ -24,6 +25,7 @@ export default async function PipelinePage({
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-8">
+      <AutoRefresh />
       <Link href="/dashboard" className="text-sm text-ink-muted hover:text-ink">
         ← Dashboard
       </Link>
