@@ -45,3 +45,12 @@ body {
     animation: none;
   }
 }
+
+.dot-grid {
+  background-image: radial-gradient(
+    circle at 2px 2px,
+    var(--color-edge) 1px,
+    transparent 0
+  );
+  background-size: 48px 48px;
+}
