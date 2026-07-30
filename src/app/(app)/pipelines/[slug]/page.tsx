@@ -7,6 +7,7 @@ import { StatusDot } from "@/components/status-dot";
 import { humanPeriod, timeAgo } from "@/lib/format";
 import type { runs as runsTable } from "@/db/schema";
 import { AutoRefresh } from "@/components/auto-refresh";
+import { CopyButton } from "@/components/copy-button";
 
 type Run = typeof runsTable.$inferSelect;
 
@@ -58,6 +59,10 @@ export default async function PipelinePage({
 }
 
 function WaitingForPing({ slug }: { slug: string }) {
+  const snippet = `curl -X POST https://your-app.example/api/runs \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"pipeline":"${slug}","status":"success"}'`;
   return (
     <div className="mt-10 rounded-lg border border-edge bg-surface p-8">
       <div className="flex items-center gap-2">
@@ -68,12 +73,12 @@ function WaitingForPing({ slug }: { slug: string }) {
         Send a ping from your job to bring this pipeline to life. Add this to
         the end of your script, or run it right now to test:
       </p>
-      <pre className="mt-4 overflow-x-auto rounded-md border border-edge bg-bg p-4 font-mono text-xs leading-relaxed">
-        {`curl -X POST https://your-app.example/api/runs \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{"pipeline":"${slug}","status":"success"}'`}
-      </pre>
+      <div className="relative mt-4">
+        <pre className="overflow-x-auto rounded-md border border-edge bg-bg p-4 font-mono text-xs leading-relaxed">
+          {snippet}
+        </pre>
+        <CopyButton text={snippet} />
+      </div>
       <p className="mt-3 text-xs text-ink-muted">
         YOUR_API_KEY is the key you saved when you created your first pipeline.
         Lost it? Revoke and reissue from Settings.

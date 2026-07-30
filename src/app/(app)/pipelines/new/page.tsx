@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
 import Link from "next/link";
 import { createPipeline, type CreatePipelineState } from "./actions";
+import { CopyButton } from "@/components/copy-button";
 
 const initial: CreatePipelineState = { status: "idle" };
 
@@ -99,8 +100,6 @@ export default function NewPipelinePage() {
 }
 
 function RevealKey({ rawKey, slug }: { rawKey: string; slug: string }) {
-  const [copied, setCopied] = useState(false);
-
   return (
     <Panel title="Your API key">
       <p className="text-sm text-ink-muted">
@@ -109,17 +108,7 @@ function RevealKey({ rawKey, slug }: { rawKey: string; slug: string }) {
       </p>
       <div className="mt-4 flex items-center gap-2 rounded-md border border-edge bg-bg p-3">
         <code className="flex-1 break-all font-mono text-sm">{rawKey}</code>
-        <button
-          onClick={() => {
-            navigator.clipboard.writeText(rawKey).then(() => {
-              setCopied(true);
-              setTimeout(() => setCopied(false), 2000);
-            });
-          }}
-          className="shrink-0 rounded-md border border-edge px-2 py-1 text-xs text-ink-muted transition-colors hover:border-ink hover:text-ink"
-        >
-          {copied ? "Copied" : "Copy"}
-        </button>
+        <CopyButton text={rawKey} className="shrink-0" />
       </div>
       <p className="mt-4 text-sm text-ink-muted">
         <span className="font-mono">{slug}</span> is now waiting for its first

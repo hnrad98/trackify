@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { TickField } from "@/components/tick-field";
 import { PLAN_LIMITS } from "@/lib/plans";
+import { CopyButton } from "@/components/copy-button";
 
 export default function LandingPage() {
+  const snippet = `curl -X POST https://trackify.example/api/runs \\
+  -H "Authorization: Bearer $TRACKIFY_KEY" \\
+  -d '{"pipeline":"nightly-etl","status":"success"}'`;
   return (
     <div className="dot-grid min-h-screen">
       <nav className="sticky top-0 z-20 border-b border-edge bg-bg/80 backdrop-blur">
@@ -118,12 +122,12 @@ export default function LandingPage() {
             </div>
           ))}
         </div>
-        <pre className="mt-10 overflow-x-auto rounded-lg border border-edge bg-surface p-5 font-mono text-xs leading-relaxed">
-          {`# the whole integration:
-curl -X POST https://trackify.example/api/runs \\
-  -H "Authorization: Bearer $TRACKIFY_KEY" \\
-  -d '{"pipeline":"nightly-etl","status":"success"}'`}
-        </pre>
+        <div className="relative mt-10">
+          <pre className="overflow-x-auto rounded-lg border border-edge bg-surface p-5 font-mono text-xs leading-relaxed">
+            {`# the whole integration:\n` + snippet}
+          </pre>
+          <CopyButton text={snippet} />
+        </div>
       </section>
 
       <footer className="border-t border-edge">
