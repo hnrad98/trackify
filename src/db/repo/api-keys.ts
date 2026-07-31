@@ -51,3 +51,16 @@ export async function findTenantIdByKeyHash(
     .where(eq(apiKeys.id, row.id));
   return row.tenantId;
 }
+
+export async function revokeApiKey(tenantId: string, keyId: string) {
+  await db
+    .update(apiKeys)
+    .set({ revokedAt: new Date() })
+    .where(
+      and(
+        eq(apiKeys.id, keyId),
+        eq(apiKeys.tenantId, tenantId),
+        isNull(apiKeys.revokedAt),
+      ),
+    );
+}

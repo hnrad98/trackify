@@ -13,7 +13,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <span className="inline-block h-3.5 w-3.5 border-2 border-accent" />
             Trackify
           </Link>
-          <SignOutButton />
+          <div className="flex items-center gap-4">
+            <Link
+              href="/settings"
+              className="text-sm text-ink-muted transition-colors hover:text-ink"
+            >
+              Settings
+            </Link>
+            <SignOutButton />
+          </div>
         </div>
       </nav>
       {children}
