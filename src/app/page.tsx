@@ -2,6 +2,8 @@ import Link from "next/link";
 import { TickField } from "@/components/tick-field";
 import { PLAN_LIMITS } from "@/lib/plans";
 import { CopyButton } from "@/components/copy-button";
+import { PublicNav } from "@/components/public-nav";
+import { PublicFooter } from "@/components/public-footer";
 
 export default function LandingPage() {
   const snippet = `curl -X POST https://trackify.example/api/runs \\
@@ -9,35 +11,7 @@ export default function LandingPage() {
   -d '{"pipeline":"nightly-etl","status":"success"}'`;
   return (
     <div className="dot-grid min-h-screen">
-      <nav className="sticky top-0 z-20 border-b border-edge bg-bg/80 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
-          <div className="flex items-center gap-2 font-semibold">
-            <span className="inline-block h-3.5 w-3.5 border-2 border-accent" />
-            Trackify
-          </div>
-          <div className="flex items-center gap-6 text-sm">
-            <Link
-              href="/docs"
-              className="text-ink-muted transition-colors hover:text-ink"
-            >
-              Docs
-            </Link>
-            <Link
-              href="/login"
-              className="text-ink-muted transition-colors hover:text-ink"
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/register"
-              className="rounded-md bg-accent px-3 py-1.5 font-medium text-bg transition-opacity hover:opacity-90"
-            >
-              Get started
-            </Link>
-          </div>
-        </div>
-      </nav>
-
+      <PublicNav />
       <header className="relative overflow-hidden">
         <TickField className="absolute inset-0 h-full w-full opacity-60" />
         <div className="pointer-events-none relative z-10 mx-auto max-w-5xl px-6 pb-24 pt-24">
@@ -129,23 +103,7 @@ export default function LandingPage() {
           <CopyButton text={snippet} />
         </div>
       </section>
-
-      <footer className="border-t border-edge">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-8 text-sm text-ink-muted">
-          <div className="flex items-center gap-2">
-            <span className="inline-block h-3 w-3 border-2 border-edge" />
-            Trackify
-          </div>
-          <div className="flex gap-6">
-            <Link href="/docs" className="transition-colors hover:text-ink">
-              Docs
-            </Link>
-            <Link href="/login" className="transition-colors hover:text-ink">
-              Sign in
-            </Link>
-          </div>
-        </div>
-      </footer>
+      <PublicFooter />
     </div>
   );
 }
