@@ -3,6 +3,7 @@ import { hashApiKey } from "@/lib/api-keys";
 import { findTenantIdByKeyHash } from "@/db/repo/api-keys";
 import { findPipelineBySlug, recordPing } from "@/db/repo/pipelines";
 import { closeRun, openRun } from "@/db/repo/runs";
+import { insertAlert } from "@/db/repo/alerts";
 
 const bodySchema = z.object({
   pipeline: z.string().min(1),
@@ -65,6 +66,10 @@ export async function POST(req: Request) {
           exitCode: body.exit_code,
           message: body.message,
         });
+
+  if (body.status === "success" && pipeline.status === "down") {
+    await insertAlert(tenantId, { pipelineId: pipeline.id, type: "recovery" });
+  }
 
   await recordPing(
     tenantId,
