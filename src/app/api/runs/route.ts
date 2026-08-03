@@ -71,6 +71,10 @@ export async function POST(req: Request) {
     await insertAlert(tenantId, { pipelineId: pipeline.id, type: "recovery" });
   }
 
+  if (body.status === "fail" && pipeline.status !== "down") {
+    await insertAlert(tenantId, { pipelineId: pipeline.id, type: "down" });
+  }
+
   await recordPing(
     tenantId,
     pipeline.id,
