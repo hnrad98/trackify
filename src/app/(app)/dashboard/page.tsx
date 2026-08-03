@@ -17,6 +17,7 @@ export default async function DashboardPage() {
     listRecentRunsByPipeline(tenantId),
   ]);
   const { maxPipelines } = PLAN_LIMITS[tenant.plan];
+  const downPipelines = pipelines.filter((p) => p.status === "down");
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-8">
@@ -38,7 +39,18 @@ export default async function DashboardPage() {
           New pipeline
         </Link>
       </div>
-
+      {downPipelines.length > 0 && (
+        <div className="mt-6 flex items-center gap-3 rounded-md border border-down/40 bg-down/10 px-4 py-2.5 text-sm">
+          <span className="inline-block h-2 w-2 rounded-full bg-down pulse-soft" />
+          <span>
+            {downPipelines.length === 1
+              ? `1 pipeline is down: ${downPipelines[0]?.name}`
+              : `${downPipelines.length} pipelines are down: ${downPipelines
+                  .map((p) => p.name)
+                  .join(", ")}`}
+          </span>
+        </div>
+      )}
       {pipelines.length === 0 ? (
         <div className="mt-16 flex flex-col items-center rounded-lg border border-edge bg-surface px-6 py-16 text-center">
           <RunBar statuses={[]} />

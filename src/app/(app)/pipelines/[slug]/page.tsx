@@ -8,8 +8,11 @@ import { humanPeriod, timeAgo } from "@/lib/format";
 import type { runs as runsTable } from "@/db/schema";
 import { AutoRefresh } from "@/components/auto-refresh";
 import { CopyButton } from "@/components/copy-button";
+import { listAlertsForPipeline } from "@/db/repo/alerts";
+import type { alerts as alertsTable } from "@/db/schema";
 
 type Run = typeof runsTable.$inferSelect;
+type Alert = typeof alertsTable.$inferSelect;
 
 export default async function PipelinePage({
   params,
@@ -22,7 +25,10 @@ export default async function PipelinePage({
   const pipeline = await findPipelineBySlug(tenantId, slug);
   if (!pipeline) notFound();
 
-  const runList = await listRunsForPipeline(tenantId, pipeline.id);
+  const [runList, alertList] = await Promise.all([
+    listRunsForPipeline(tenantId, pipeline.id),
+    listAlertsForPipeline(tenantId, pipeline.id),
+  ]);
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-8">
@@ -50,6 +56,7 @@ export default async function PipelinePage({
         <WaitingForPing slug={pipeline.slug} />
       ) : (
         <>
+          <AlertsTimeline alerts={alertList} />
           <DurationChart runs={runList} />
           <RunsTable runs={runList} />
         </>
@@ -163,6 +170,38 @@ function RunsTable({ runs }: { runs: Run[] }) {
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+function AlertsTimeline({ alerts }: { alerts: Alert[] }) {
+  if (alerts.length === 0) return null;
+  return (
+    <div className="mt-10">
+      <h2 className="text-sm font-medium text-ink-muted">Alerts</h2>
+      <ul className="mt-3 space-y-2">
+        {alerts.map((a) => (
+          <li
+            key={a.id}
+            className="flex items-center gap-3 rounded-md border border-edge bg-surface px-4 py-2.5 text-sm"
+          >
+            <span
+              className={`inline-block h-2 w-2 rounded-full ${
+                a.type === "down" ? "bg-down" : "bg-up"
+              }`}
+            />
+            <span className="font-medium">
+              {a.type === "down" ? "Pipeline went down" : "Pipeline recovered"}
+            </span>
+            <span
+              title={a.createdAt.toISOString()}
+              className="ml-auto font-mono text-xs text-ink-muted"
+            >
+              {timeAgo(a.createdAt)}
+            </span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
