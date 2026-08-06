@@ -38,6 +38,12 @@ export default function LandingPage() {
             >
               Read the docs
             </Link>
+            <Link
+              href="/demo"
+              className="rounded-md border border-edge px-5 py-2.5 text-sm text-ink transition-colors hover:border-ink"
+            >
+              View live demo
+            </Link>
           </div>
         </div>
 

@@ -9,6 +9,12 @@ export function PublicFooter() {
           Trackify
         </div>
         <div className="flex gap-6">
+          <Link
+            href="/demo"
+            className="text-ink-muted transition-colors hover:text-ink"
+          >
+            Demo
+          </Link>
           <Link href="/docs" className="transition-colors hover:text-ink">
             Docs
           </Link>

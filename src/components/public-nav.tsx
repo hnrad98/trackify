@@ -10,6 +10,12 @@ export function PublicNav() {
         </Link>
         <div className="flex items-center gap-6 text-sm">
           <Link
+            href="/demo"
+            className="text-ink-muted transition-colors hover:text-ink"
+          >
+            Demo
+          </Link>
+          <Link
             href="/docs"
             className="text-ink-muted transition-colors hover:text-ink"
           >
